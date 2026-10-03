@@ -6,7 +6,9 @@
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "build": "node scripts/build.mjs",
-    "test": "node tests/smoke.mjs"
+    "test": "node tests/smoke.mjs",
+    "package:pages": "node scripts/package-pages.mjs",
+    "test:pages": "node tests/pages.mjs"
   },
   "engines": {
     "node": ">=20"

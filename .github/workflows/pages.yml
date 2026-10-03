@@ -39,17 +39,23 @@ jobs:
       - name: Build project site
         run: >-
           node scripts/build.mjs
-          --base "${{ steps.pages.outputs.base_path || format('/{0}', github.event.repository.name) }}"
+          --base /Biamonte-Collected-Works/
           --url "${{ steps.pages.outputs.origin || format('https://{0}.github.io', github.repository_owner) }}"
 
       - name: Run smoke tests
         run: npm test
 
+      - name: Package branded path and legacy redirects
+        run: npm run package:pages
+
+      - name: Check deployment paths
+        run: npm run test:pages
+
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:
-          path: dist
+          path: pages-dist
 
   deploy:
     if: github.event_name != 'pull_request'

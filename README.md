@@ -29,9 +29,15 @@ For the GitHub project-site base path:
 
 ```sh
 node scripts/build.mjs \
-  --base /Collected-Works/ \
+  --base /Biamonte-Collected-Works/ \
   --url https://jacobbiamonte.github.io
 ```
+
+The canonical homepage is https://jacobbiamonte.github.io/Biamonte-Collected-Works/.
+The public repository `JacobBiamonte/jacobbiamonte.github.io` hosts this path through GitHub Pages.
+Run `npm run package:pages` after the production build to create the `pages-dist/` deployment artifact,
+then `npm run test:pages` to check its mounted paths and migration redirects.
+Earlier `/Collected-Works/` and `/Biamonte-Collected-Works-site/` page URLs redirect to their corresponding canonical pages.
 
 ## Population workflow
 

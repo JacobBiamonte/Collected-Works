@@ -222,8 +222,8 @@ for (const file of ['volumes.json', 'works.json', 'results.json', 'releases.json
 renderStaticPage('home', {
   output: 'index.html',
   route: '',
-  title: 'Biamonte Collected Works',
-  description: 'A Lean-certification program and structured result database for proof, connection and discovery across mathematical disciplines.',
+  title: 'Biamonte Collected Works — Lean Certification and Discovery',
+  description: "Jacob Biamonte's collected research in quantum computing, tensor networks and inference: a program for Lean certification and AI-assisted discovery.",
   pageId: 'home'
 });
 
