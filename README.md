@@ -1,8 +1,11 @@
 # Biamonte Collected Works — public site
 
-This repository is the public, reader-facing shell for the Biamonte Collected Works. It is intentionally separate from the private validation repository.
+This repository is the public, reader-facing home of the Biamonte Collected Works. The project has two connected aims:
 
-The site is functional before the corpus is populated: it provides the three-volume reading map, stable routes, evidence and Lean-status definitions, bibliography download, search and filter controls, explicit empty states, and a GitHub Pages deployment pipeline.
+- produce a source-mapped Lean-certified counterpart for every formalizable mathematical result in the corpus;
+- build a structured result database that supports human and frontier-model-assisted exploration of connections, conjectures and extensions.
+
+The public repository is intentionally separate from the private validation record. The site is functional before the corpus is populated: it provides the three-volume reading map, stable result and source routes, certification definitions, machine-readable data, bibliography download, search and filter controls, and a GitHub Pages deployment pipeline.
 
 ## Current public scope
 
@@ -38,4 +41,4 @@ node scripts/build.mjs \
 4. Run validation, build and smoke tests.
 5. Review the exact `dist/` artifact before publication.
 
-The public status model is result-level. A bounded check does not certify a whole paper, and Lean status applies only to the exact encoded statement named by a record.
+The public status model is result-level. A bounded check does not certify a whole paper, and Lean status applies only to the exact encoded statement named by a record. Connections and extensions proposed with frontier models remain research candidates until they pass source review, mathematical checking and the appropriate certification or reproduction track.

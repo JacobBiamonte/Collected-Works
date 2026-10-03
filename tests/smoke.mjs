@@ -50,11 +50,11 @@ if (fs.existsSync(DIST)) {
 }
 
 const homepage = fs.existsSync(path.join(DIST, 'index.html')) ? fs.readFileSync(path.join(DIST, 'index.html'), 'utf8') : '';
-if (!homepage.includes('architecture live')) errors.push('Homepage beta state is missing.');
+if (!homepage.includes('Built for proof and discovery.')) errors.push('Homepage proof-and-discovery mission is missing.');
 const data = loadPublicData();
 const publicWorkCount = data.works.works.filter((work) => work.publish).length;
 const publicResultCount = data.results.results.filter((result) => result.publish).length;
-if (!homepage.includes(`${publicWorkCount} works and ${publicResultCount} results published`)) errors.push('Homepage/footer public counts are incorrect.');
+if (!homepage.includes(`${publicWorkCount} source works · ${publicResultCount} result records`)) errors.push('Homepage/footer public counts are incorrect.');
 for (const volume of data.volumes.volumes) {
   if (!homepage.includes(volume.title)) errors.push(`Homepage is missing volume title ${volume.title}.`);
   for (const result of volume.featured_results) {
@@ -65,12 +65,20 @@ if (!homepage.includes('topic-tag')) errors.push('Homepage topic tags are missin
 if (homepage.includes('wordmark-mark')) errors.push('Removed wordmark logo is still present.');
 if (homepage.includes('hero-figure') || homepage.includes('collection-map-title')) errors.push('Removed hero figure is still present.');
 if (!homepage.includes('editorial reading map; certification records remain separate')) errors.push('Homepage editorial/certification distinction is missing.');
-if (!homepage.includes('every formalizable mathematical result a source-mapped Lean certificate')) errors.push('Homepage Lean-certification objective is missing.');
+if (!homepage.includes('certify every formalizable mathematical result in Lean')) errors.push('Homepage Lean-certification objective is missing.');
 if (!homepage.includes('A Lean-certified mathematical record, result by result.')) errors.push('Homepage formal objective heading is missing.');
+if (!homepage.includes('frontier-model-assisted searches')) errors.push('Homepage result-discovery objective is missing.');
+if (homepage.includes('honest while empty')) errors.push('Defensive empty-state headline is still present.');
 
 const certificationPage = fs.existsSync(path.join(DIST, 'certification/index.html')) ? fs.readFileSync(path.join(DIST, 'certification/index.html'), 'utf8') : '';
-if (!certificationPage.includes('produce a Lean-certified counterpart for every formalizable mathematical result')) errors.push('Certification page Lean objective is missing.');
+if (!certificationPage.includes('formally checked counterpart for every formalizable mathematical result')) errors.push('Certification page Lean objective is missing.');
 if (!certificationPage.includes('no <code>sorry</code> or unproved new axioms')) errors.push('Certification page proof-obligation language is missing.');
+
+const resultsPage = fs.existsSync(path.join(DIST, 'results/index.html')) ? fs.readFileSync(path.join(DIST, 'results/index.html'), 'utf8') : '';
+if (!resultsPage.includes('Result database') || !resultsPage.includes('frontier models')) errors.push('Result database mission is missing.');
+
+const downloadsPage = fs.existsSync(path.join(DIST, 'downloads/index.html')) ? fs.readFileSync(path.join(DIST, 'downloads/index.html'), 'utf8') : '';
+if (!downloadsPage.includes('data/results.json') || !downloadsPage.includes('Machine-readable corpus')) errors.push('Machine-readable corpus download is missing.');
 
 const siteScript = fs.existsSync(path.join(DIST, 'assets/site.js')) ? fs.readFileSync(path.join(DIST, 'assets/site.js'), 'utf8') : '';
 if (!siteScript.includes("document.documentElement.classList.add('js')")) errors.push('Progressive-enhancement navigation hook is missing.');

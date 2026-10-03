@@ -1,14 +1,20 @@
 <section class="page-intro shell">
   <p class="eyebrow">Editions and data</p>
   <h1>Downloads</h1>
-  <p class="lede">The download architecture is live. Publication artifacts will activate only when an edition passes its review and build gates.</p>
+  <p class="lede">Every format is generated from the same reviewed corpus: web chapters, a complete collected edition, individual volume PDFs, bibliography data and machine-readable result records.</p>
 </section>
 <section class="shell download-grid section-block">
   <article class="download-card available">
     <p class="download-kicker">Metadata</p>
-    <h2>Provisional bibliography</h2>
-    <p>A valid BibTeX shell containing {{WORK_COUNT}} reviewed public entries. The current file explicitly records that population has not begun.</p>
+    <h2>Bibliography</h2>
+    <p>A valid BibTeX file containing {{WORK_COUNT}} reviewed public entries in the current edition.</p>
     <a class="button button-dark" href="{{BASE}}downloads/collected-works.bib" download>Download BibTeX</a>
+  </article>
+  <article class="download-card available">
+    <p class="download-kicker">Research data</p>
+    <h2>Machine-readable corpus</h2>
+    <p>Public result, work and volume records for computational analysis and frontier-model-assisted research.</p>
+    <a class="button button-dark" href="{{BASE}}data/results.json" download>Download result data</a>
   </article>
   {{DOWNLOAD_CARDS}}
 </section>

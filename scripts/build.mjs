@@ -138,8 +138,8 @@ function emptyState(kind, hidden = false) {
   return `<div class="empty-state" data-empty-state${hidden ? ' hidden' : ''}>
     <div class="empty-state-inner">
       <span class="empty-state-index">0</span>
-      <h2>No ${kind} are public yet.</h2>
-      <p>The index is functioning and ready for reviewed records. Nothing is inferred from the empty state.</p>
+      <h2>The first reviewed ${kind} are in preparation.</h2>
+      <p>The database and filters are ready. Public records will appear after source alignment and review.</p>
     </div>
   </div>`;
 }
@@ -223,7 +223,7 @@ renderStaticPage('home', {
   output: 'index.html',
   route: '',
   title: 'Biamonte Collected Works',
-  description: 'A coherent, evidence-aware scholarly edition spanning mathematical structures, quantum dynamics and statistical inference.',
+  description: 'A Lean-certification program and structured result database for proof, connection and discovery across mathematical disciplines.',
   pageId: 'home'
 });
 
@@ -239,7 +239,7 @@ renderStaticPage('results', {
   output: 'results/index.html',
   route: 'results/',
   title: 'Results — Biamonte Collected Works',
-  description: 'Result-level evidence and formalization index for the Biamonte Collected Works.',
+  description: 'A structured database of source-mapped results, Lean status, dependencies, connections and research extensions.',
   pageId: 'results'
 });
 
@@ -247,7 +247,7 @@ renderStaticPage('certification', {
   output: 'certification/index.html',
   route: 'certification/',
   title: 'Certification — Biamonte Collected Works',
-  description: 'How source identity, analytic review, reproduction and Lean formalization are reported.',
+  description: 'How the Biamonte Collected Works certifies formalizable mathematical results in Lean.',
   pageId: 'certification'
 });
 
@@ -263,7 +263,7 @@ renderStaticPage('about', {
   output: 'about/index.html',
   route: 'about/',
   title: 'About — Biamonte Collected Works',
-  description: 'Purpose and editorial principles of the Biamonte Collected Works.',
+  description: 'The proof-and-discovery mission of the Biamonte Collected Works.',
   pageId: 'about'
 });
 
@@ -291,7 +291,7 @@ for (const volume of data.volumes.volumes) {
       <div>
         <h2>${escapeHtml(chapter.title)}</h2>
         <p>${escapeHtml(chapter.summary)}</p>
-        <span class="chapter-state">Structure live · reader text not yet public</span><br>
+        <span class="chapter-state">Mapped · exposition in preparation</span><br>
         <a class="text-link" href="${BASE}volumes/${volume.slug}/${chapterSlug}/" aria-label="Open chapter ${escapeHtml(chapter.id)}: ${escapeHtml(chapter.title)}">Open chapter page <span aria-hidden="true">→</span></a>
       </div>
     </article>`;
@@ -313,8 +313,8 @@ for (const volume of data.volumes.volumes) {
     </section>
     <section class="shell volume-page-grid">
       <aside class="volume-aside">
-        <p class="eyebrow">Public beta</p>
-        <p>All ${volume.chapters.length} chapter routes are active. Reader text and result records will appear after review.</p>
+        <p class="eyebrow">Edition status</p>
+        <p>This volume's ${volume.chapters.length} chapters and selected result map are public. Source-linked result records and reader text are in preparation.</p>
         <a class="text-link" href="${BASE}downloads/">Edition downloads <span aria-hidden="true">→</span></a>
       </aside>
       <div class="chapter-list">${chapterRows}</div>
@@ -346,12 +346,12 @@ for (const volume of data.volumes.volumes) {
           <div class="metric"><strong>${chapterWorks.length}</strong><span>Public works</span></div>
           <div class="metric"><strong>${chapterResults.length}</strong><span>Public results</span></div>
           <div class="metric"><strong>${chapterResults.filter((result) => result.evidence_status === 'formally-verified').length}</strong><span>Lean certificates</span></div>
-          <div class="metric"><strong>Beta</strong><span>Chapter state</span></div>
+          <div class="metric"><strong>Mapped</strong><span>Chapter state</span></div>
         </div>
       </section>
       <section class="shell note-panel">
-        <h2>Reader text not yet public</h2>
-        <p>This permanent chapter route is ready. It will receive reviewed exposition, source notes and result links without changing the surrounding site architecture.</p>
+        <h2>Chapter record in preparation</h2>
+        <p>This page will connect reviewed exposition, source works, exact result statements, dependencies, Lean certificates and related research questions.</p>
       </section>`;
     write(`volumes/${volume.slug}/${chapterSlug}/index.html`, renderPage({
       route: `volumes/${volume.slug}/${chapterSlug}/`,
@@ -408,8 +408,8 @@ for (const result of publishedResults) {
 
 const notFoundContent = `<section class="page-intro shell">
   <p class="eyebrow">404</p>
-  <h1>This route has not been populated.</h1>
-  <p class="lede">The public beta is live, but the requested work, result or chapter may not yet be available.</p>
+  <h1>This page is not in the current edition.</h1>
+  <p class="lede">The address may be outdated, or the requested work, result or chapter has not yet been published.</p>
   <a class="button button-dark" href="${BASE}">Return home</a>
 </section>`;
 
