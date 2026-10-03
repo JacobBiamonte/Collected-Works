@@ -46,6 +46,10 @@ function routeUrl(route) {
   return `${SITE_URL}${BASE}${route.replace(/^\//, '')}`;
 }
 
+function chapterRouteSlug(chapterId) {
+  return chapterId.toLowerCase().replaceAll('.', '-');
+}
+
 function replaceTokens(text, tokens) {
   let output = text;
   for (const [key, value] of Object.entries(tokens)) {
@@ -81,13 +85,34 @@ function pageSource(name) {
   return fs.readFileSync(path.join(ROOT, `site-src/pages/${name}.html`), 'utf8');
 }
 
+function topicTags(volume, labels = volume.tags.map((tag) => tag.label)) {
+  const tones = new Map(volume.tags.map((tag) => [tag.label, tag.tone]));
+  return `<div class="tag-list">${labels.map((label) => `<span class="topic-tag tone-${escapeHtml(tones.get(label))}">${escapeHtml(label)}</span>`).join('')}</div>`;
+}
+
+function featuredResultNames(volume) {
+  return `<ul class="featured-list">${volume.featured_results.map((result) => `<li>${escapeHtml(result.name)}</li>`).join('')}</ul>`;
+}
+
+function featuredResultCards(volume) {
+  return volume.featured_results.map((result) => `<article class="featured-result-card">
+    ${topicTags(volume, result.tags)}
+    <p class="result-chapter">Chapter ${escapeHtml(result.chapter_id)}</p>
+    <h3>${escapeHtml(result.name)}</h3>
+    <p>${escapeHtml(result.summary)}</p>
+  </article>`).join('');
+}
+
 function volumeCards(headingLevel = 3) {
   return data.volumes.volumes.map((volume) => `
     <article class="volume-card">
       <div class="volume-number">${escapeHtml(volume.id)}</div>
       <h${headingLevel}>${escapeHtml(volume.title)}</h${headingLevel}>
+      ${topicTags(volume)}
       <p>${escapeHtml(volume.arc)}</p>
-      <a class="text-link" href="${BASE}volumes/${escapeHtml(volume.slug)}/">Read the map <span aria-hidden="true">→</span></a>
+      <p class="result-map-label">Selected result lines</p>
+      ${featuredResultNames(volume)}
+      <a class="text-link" href="${BASE}volumes/${escapeHtml(volume.slug)}/" aria-label="Read the map for ${escapeHtml(volume.title)}">Read the map <span aria-hidden="true">→</span></a>
     </article>`).join('');
 }
 
@@ -96,7 +121,7 @@ function workCards() {
     <article class="index-card" data-filter-item data-search="${escapeHtml([work.work_id, work.title, ...work.authors, work.public_summary].join(' '))}" data-volume="${escapeHtml(work.volume)}" data-status="${escapeHtml(work.evidence_status)}">
       <div class="index-card-meta">${escapeHtml(work.work_id)}<br>${escapeHtml(work.year)}</div>
       <div><h2>${escapeHtml(work.title)}</h2><p>${escapeHtml(work.authors.join(', '))}</p></div>
-      <a class="text-link" href="${BASE}works/${work.work_id.toLowerCase()}/">Open <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="${BASE}works/${work.work_id.toLowerCase()}/" aria-label="Open ${escapeHtml(work.title)}">Open <span aria-hidden="true">→</span></a>
     </article>`).join('');
 }
 
@@ -105,7 +130,7 @@ function resultCards() {
     <article class="index-card" data-filter-item data-search="${escapeHtml([result.result_id, result.title, result.work_id, result.chapter_id, result.public_summary].join(' '))}" data-volume="${escapeHtml(result.chapter_id.split('.')[0])}" data-status="${escapeHtml(result.evidence_status)}">
       <div class="index-card-meta">${escapeHtml(result.result_id)}<br>${escapeHtml(result.chapter_id)}</div>
       <div><h2>${escapeHtml(result.title)}</h2><p>${escapeHtml(result.public_summary)}</p></div>
-      <a class="text-link" href="${BASE}results/${result.result_id.toLowerCase()}/">Open <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="${BASE}results/${result.result_id.toLowerCase()}/" aria-label="Open ${escapeHtml(result.title)}">Open <span aria-hidden="true">→</span></a>
     </article>`).join('');
 }
 
@@ -166,6 +191,22 @@ function renderStaticPage(name, settings, extra = {}) {
     ...extra
   });
   write(settings.output, renderPage({ ...settings, content: source }));
+}
+
+function writeRedirect(aliasRoute, targetRoute) {
+  const target = `${BASE}${targetRoute}`;
+  write(`${aliasRoute}index.html`, `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=${escapeHtml(target)}">
+  <link rel="canonical" href="${routeUrl(targetRoute)}">
+  <title>Moved — Biamonte Collected Works</title>
+</head>
+<body><p>This page has moved to <a href="${escapeHtml(target)}">${escapeHtml(target)}</a>.</p></body>
+</html>`);
 }
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -230,7 +271,7 @@ const volumeIndex = `
   <section class="page-intro shell">
     <p class="eyebrow">Reading map</p>
     <h1>Volumes</h1>
-    <p class="lede">Three linked volumes follow the conceptual movement from representations, through dynamics, to algorithms and inference.</p>
+    <p class="lede">Three linked volumes move from Hamiltonian logic and tensor structure, through quantum and stochastic dynamics, to algorithms and inference.</p>
   </section>
   <section class="shell section-block"><div class="volume-grid">${volumeCards(2)}</div></section>`;
 
@@ -244,14 +285,14 @@ write('volumes/index.html', renderPage({
 
 for (const volume of data.volumes.volumes) {
   const chapterRows = volume.chapters.map((chapter) => {
-    const chapterSlug = chapter.id.toLowerCase().replace('.', '-');
+    const chapterSlug = chapterRouteSlug(chapter.id);
     return `<article class="chapter-row" id="chapter-${escapeHtml(chapterSlug)}">
       <div class="chapter-id">${escapeHtml(chapter.id)}</div>
       <div>
         <h2>${escapeHtml(chapter.title)}</h2>
         <p>${escapeHtml(chapter.summary)}</p>
         <span class="chapter-state">Structure live · reader text not yet public</span><br>
-        <a class="text-link" href="${BASE}volumes/${volume.slug}/${chapterSlug}/">Open chapter page <span aria-hidden="true">→</span></a>
+        <a class="text-link" href="${BASE}volumes/${volume.slug}/${chapterSlug}/" aria-label="Open chapter ${escapeHtml(chapter.id)}: ${escapeHtml(chapter.title)}">Open chapter page <span aria-hidden="true">→</span></a>
       </div>
     </article>`;
   }).join('');
@@ -260,6 +301,15 @@ for (const volume of data.volumes.volumes) {
       <p class="eyebrow">Volume ${escapeHtml(volume.id)}</p>
       <h1>${escapeHtml(volume.title)}</h1>
       <p class="lede">${escapeHtml(volume.arc)}</p>
+      ${topicTags(volume)}
+    </section>
+    <section class="shell result-map-section" id="selected-results">
+      <div class="section-heading narrow-heading">
+        <p class="eyebrow">Selected result lines</p>
+        <h2>What defines this volume.</h2>
+        <p>These names form the editorial reading map. Formal public evidence records will appear separately after review.</p>
+      </div>
+      <div class="featured-result-grid">${featuredResultCards(volume)}</div>
     </section>
     <section class="shell volume-page-grid">
       <aside class="volume-aside">
@@ -278,8 +328,12 @@ for (const volume of data.volumes.volumes) {
     content
   }));
 
+  for (const alias of volume.aliases) {
+    writeRedirect(`volumes/${alias}/`, `volumes/${volume.slug}/`);
+  }
+
   for (const chapter of volume.chapters) {
-    const chapterSlug = chapter.id.toLowerCase().replace('.', '-');
+    const chapterSlug = chapterRouteSlug(chapter.id);
     const chapterWorks = publishedWorks.filter((work) => work.chapters.includes(chapter.id));
     const chapterResults = publishedResults.filter((result) => result.chapter_id === chapter.id);
     const chapterContent = `<section class="page-intro shell">
@@ -306,6 +360,9 @@ for (const volume of data.volumes.volumes) {
       pageId: 'volumes',
       content: chapterContent
     }));
+    for (const alias of volume.aliases) {
+      writeRedirect(`volumes/${alias}/${chapterSlug}/`, `volumes/${volume.slug}/${chapterSlug}/`);
+    }
   }
 }
 
@@ -368,7 +425,7 @@ const sitemapRoutes = [
   '', 'volumes/', 'works/', 'results/', 'certification/', 'downloads/', 'about/',
   ...data.volumes.volumes.flatMap((volume) => [
     `volumes/${volume.slug}/`,
-    ...volume.chapters.map((chapter) => `volumes/${volume.slug}/${chapter.id.toLowerCase().replace('.', '-')}/`)
+    ...volume.chapters.map((chapter) => `volumes/${volume.slug}/${chapterRouteSlug(chapter.id)}/`)
   ]),
   ...publishedWorks.map((work) => `works/${work.work_id.toLowerCase()}/`),
   ...publishedResults.map((result) => `results/${result.result_id.toLowerCase()}/`)

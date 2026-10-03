@@ -1,4 +1,6 @@
 (() => {
+  document.documentElement.classList.add('js');
+
   const menuButton = document.querySelector('[data-menu-button]');
   const navigation = document.querySelector('[data-site-nav]');
 

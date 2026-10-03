@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadPublicData, PROHIBITED_PUBLIC_PATTERNS } from '../scripts/validate.mjs';
+import { loadPublicData, PROHIBITED_PUBLIC_PATTERNS, validatePublicData } from '../scripts/validate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -55,6 +55,18 @@ const data = loadPublicData();
 const publicWorkCount = data.works.works.filter((work) => work.publish).length;
 const publicResultCount = data.results.results.filter((result) => result.publish).length;
 if (!homepage.includes(`${publicWorkCount} works and ${publicResultCount} results published`)) errors.push('Homepage/footer public counts are incorrect.');
+for (const volume of data.volumes.volumes) {
+  if (!homepage.includes(volume.title)) errors.push(`Homepage is missing volume title ${volume.title}.`);
+  for (const result of volume.featured_results) {
+    if (!homepage.includes(result.name)) errors.push(`Homepage is missing featured result ${result.name}.`);
+  }
+}
+if (!homepage.includes('topic-tag')) errors.push('Homepage topic tags are missing.');
+if (homepage.includes('wordmark-mark')) errors.push('Removed wordmark logo is still present.');
+if (!homepage.includes('editorial reading map; certification records remain separate')) errors.push('Homepage editorial/certification distinction is missing.');
+
+const siteScript = fs.existsSync(path.join(DIST, 'assets/site.js')) ? fs.readFileSync(path.join(DIST, 'assets/site.js'), 'utf8') : '';
+if (!siteScript.includes("document.documentElement.classList.add('js')")) errors.push('Progressive-enhancement navigation hook is missing.');
 
 const canonicalMatch = homepage.match(/<link rel="canonical" href="([^"]+)">/);
 if (!canonicalMatch) {
@@ -63,6 +75,10 @@ if (!canonicalMatch) {
   const canonical = new URL(canonicalMatch[1]);
   const basePath = canonical.pathname.endsWith('/') ? canonical.pathname : `${canonical.pathname}/`;
   if (!homepage.includes(`href="${basePath}assets/site.css"`)) errors.push('Homepage stylesheet does not use the configured base path.');
+  if (!homepage.includes(`src="${basePath}assets/site.js"`)) errors.push('Homepage script does not use the configured base path.');
+  for (const route of ['volumes/', 'works/', 'results/', 'certification/', 'downloads/', 'about/']) {
+    if (!homepage.includes(`href="${basePath}${route}"`)) errors.push(`Homepage route ${route} does not use the configured base path.`);
+  }
 
   const sitemap = fs.existsSync(path.join(DIST, 'sitemap.xml')) ? fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf8') : '';
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
@@ -79,10 +95,50 @@ if (!canonicalMatch) {
   }
 }
 
-const volumePages = fs.existsSync(path.join(DIST, 'volumes'))
-  ? collect(path.join(DIST, 'volumes')).filter((file) => path.basename(file) === 'index.html')
-  : [];
-if (volumePages.length !== 16) errors.push(`Expected 16 volume and chapter index pages; found ${volumePages.length}.`);
+for (const volume of data.volumes.volumes) {
+  const canonicalVolume = path.join(DIST, 'volumes', volume.slug, 'index.html');
+  if (!fs.existsSync(canonicalVolume)) errors.push(`Missing canonical volume page for ${volume.slug}.`);
+  for (const chapter of volume.chapters) {
+    const chapterSlug = chapter.id.toLowerCase().split('.').join('-');
+    if (!fs.existsSync(path.join(DIST, 'volumes', volume.slug, chapterSlug, 'index.html'))) {
+      errors.push(`Missing canonical chapter page for ${volume.slug}/${chapterSlug}.`);
+    }
+  }
+  for (const alias of volume.aliases) {
+    const aliasVolume = path.join(DIST, 'volumes', alias, 'index.html');
+    if (!fs.existsSync(aliasVolume)) errors.push(`Missing volume redirect for ${alias}.`);
+    else if (!fs.readFileSync(aliasVolume, 'utf8').includes(`/volumes/${volume.slug}/`)) errors.push(`Volume redirect ${alias} has the wrong target.`);
+    for (const chapter of volume.chapters) {
+      const chapterSlug = chapter.id.toLowerCase().split('.').join('-');
+      const aliasChapter = path.join(DIST, 'volumes', alias, chapterSlug, 'index.html');
+      if (!fs.existsSync(aliasChapter)) errors.push(`Missing chapter redirect for ${alias}/${chapterSlug}.`);
+      else if (!fs.readFileSync(aliasChapter, 'utf8').includes(`/volumes/${volume.slug}/${chapterSlug}/`)) errors.push(`Chapter redirect ${alias}/${chapterSlug} has the wrong target.`);
+    }
+  }
+
+  const volumePage = fs.existsSync(canonicalVolume) ? fs.readFileSync(canonicalVolume, 'utf8') : '';
+  if (!volumePage.includes('Formal public evidence records will appear separately after review.')) {
+    errors.push(`Volume ${volume.id} is missing the editorial/certification disclaimer.`);
+  }
+}
+
+const badChapterData = structuredClone(data);
+badChapterData.volumes.volumes[0].featured_results[0].chapter_id = 'II.1';
+if (!validatePublicData(badChapterData).errors.some((error) => error.includes('references unknown chapter'))) {
+  errors.push('Validator did not reject a featured result assigned outside its volume.');
+}
+
+const duplicateRouteData = structuredClone(data);
+duplicateRouteData.volumes.volumes[1].aliases = [duplicateRouteData.volumes.volumes[0].slug];
+if (!validatePublicData(duplicateRouteData).errors.some((error) => error.includes('Duplicate volume route or alias'))) {
+  errors.push('Validator did not reject a colliding legacy route.');
+}
+
+const unknownTagData = structuredClone(data);
+unknownTagData.volumes.volumes[2].featured_results[0].tags = ['Unknown topic'];
+if (!validatePublicData(unknownTagData).errors.some((error) => error.includes('references unknown topic tag'))) {
+  errors.push('Validator did not reject an unknown featured-result topic tag.');
+}
 
 if (errors.length) {
   for (const error of errors) console.error(`ERROR: ${error}`);

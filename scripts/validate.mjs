@@ -56,6 +56,9 @@ export function validatePublicData(data = loadPublicData()) {
     'formally-verified'
   ]);
   const volumeSlugs = new Set();
+  const volumeRoutes = new Set();
+  const featuredResultNames = new Set();
+  const tagTones = new Set(['blue', 'mint', 'lilac', 'rose', 'amber']);
 
   if (data.volumes.schema_version !== 1) fail('data/volumes.json must use schema_version 1.', errors);
   if (!Array.isArray(data.volumes.volumes) || data.volumes.volumes.length !== 3) {
@@ -69,7 +72,39 @@ export function validatePublicData(data = loadPublicData()) {
     if (!/^[a-z0-9-]+$/.test(volume.slug || '')) fail(`Volume ${volume.id} has an invalid slug.`, errors);
     if (volumeSlugs.has(volume.slug)) fail(`Duplicate volume slug: ${volume.slug}`, errors);
     volumeSlugs.add(volume.slug);
+    if (volumeRoutes.has(volume.slug)) fail(`Duplicate volume route: ${volume.slug}`, errors);
+    volumeRoutes.add(volume.slug);
+    if (!Array.isArray(volume.aliases)) fail(`Volume ${volume.id} aliases must be an array.`, errors);
+    for (const alias of volume.aliases || []) {
+      if (!/^[a-z0-9-]+$/.test(alias || '')) fail(`Volume ${volume.id} has an invalid alias.`, errors);
+      if (volumeRoutes.has(alias)) fail(`Duplicate volume route or alias: ${alias}`, errors);
+      volumeRoutes.add(alias);
+    }
     if (!volume.title || !volume.arc) fail(`Volume ${volume.id} is missing required metadata.`, errors);
+    const volumeChapterIds = new Set((volume.chapters || []).map((chapter) => chapter.id));
+    const tagLabels = new Set();
+    if (!Array.isArray(volume.tags) || volume.tags.length === 0) fail(`Volume ${volume.id} must have topic tags.`, errors);
+    for (const tag of volume.tags || []) {
+      if (!tag.label || !tagTones.has(tag.tone)) fail(`Volume ${volume.id} has an invalid topic tag.`, errors);
+      if (tagLabels.has(tag.label)) fail(`Volume ${volume.id} has duplicate topic tag ${tag.label}.`, errors);
+      tagLabels.add(tag.label);
+    }
+    if (!Array.isArray(volume.featured_results) || volume.featured_results.length < 3) {
+      fail(`Volume ${volume.id} must name at least three featured results.`, errors);
+    }
+    for (const result of volume.featured_results || []) {
+      if (!result.name || !result.summary || !result.chapter_id || !Array.isArray(result.tags) || result.tags.length === 0) {
+        fail(`Volume ${volume.id} has an incomplete featured result.`, errors);
+      }
+      if (featuredResultNames.has(result.name)) fail(`Duplicate featured result name: ${result.name}`, errors);
+      featuredResultNames.add(result.name);
+      if (!volumeChapterIds.has(result.chapter_id)) {
+        fail(`Featured result ${result.name} references unknown chapter ${result.chapter_id}.`, errors);
+      }
+      for (const tag of result.tags || []) {
+        if (!tagLabels.has(tag)) fail(`Featured result ${result.name} references unknown topic tag ${tag}.`, errors);
+      }
+    }
     if (!Array.isArray(volume.chapters) || volume.chapters.length !== 4) {
       fail(`Volume ${volume.id} must contain four chapters.`, errors);
     }
