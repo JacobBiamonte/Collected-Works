@@ -29,7 +29,7 @@ For the GitHub project-site base path:
 
 ```sh
 node scripts/build.mjs \
-  --base /Biamonte-Collected-Works-site/ \
+  --base /Collected-Works/ \
   --url https://jacobbiamonte.github.io
 ```
 
