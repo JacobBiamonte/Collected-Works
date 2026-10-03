@@ -65,6 +65,12 @@ if (!homepage.includes('topic-tag')) errors.push('Homepage topic tags are missin
 if (homepage.includes('wordmark-mark')) errors.push('Removed wordmark logo is still present.');
 if (homepage.includes('hero-figure') || homepage.includes('collection-map-title')) errors.push('Removed hero figure is still present.');
 if (!homepage.includes('editorial reading map; certification records remain separate')) errors.push('Homepage editorial/certification distinction is missing.');
+if (!homepage.includes('every formalizable mathematical result a source-mapped Lean certificate')) errors.push('Homepage Lean-certification objective is missing.');
+if (!homepage.includes('A Lean-certified mathematical record, result by result.')) errors.push('Homepage formal objective heading is missing.');
+
+const certificationPage = fs.existsSync(path.join(DIST, 'certification/index.html')) ? fs.readFileSync(path.join(DIST, 'certification/index.html'), 'utf8') : '';
+if (!certificationPage.includes('produce a Lean-certified counterpart for every formalizable mathematical result')) errors.push('Certification page Lean objective is missing.');
+if (!certificationPage.includes('no <code>sorry</code> or unproved new axioms')) errors.push('Certification page proof-obligation language is missing.');
 
 const siteScript = fs.existsSync(path.join(DIST, 'assets/site.js')) ? fs.readFileSync(path.join(DIST, 'assets/site.js'), 'utf8') : '';
 if (!siteScript.includes("document.documentElement.classList.add('js')")) errors.push('Progressive-enhancement navigation hook is missing.');
