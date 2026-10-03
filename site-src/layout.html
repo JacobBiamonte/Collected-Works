@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{DESCRIPTION}}">
+  <meta property="og:url" content="{{CANONICAL_URL}}">
+  <link rel="canonical" href="{{CANONICAL_URL}}">
+  <link rel="stylesheet" href="{{BASE}}assets/site.css">
+  <script defer src="{{BASE}}assets/site.js"></script>
+</head>
+<body data-page="{{PAGE_ID}}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" data-site-header>
+    <div class="shell header-inner">
+      <a class="wordmark" href="{{BASE}}" aria-label="Biamonte Collected Works home">
+        <span class="wordmark-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Biamonte<br>Collected Works</span>
+      </a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-navigation" data-menu-button>
+        <span>Menu</span>
+      </button>
+      <nav class="site-nav" id="site-navigation" aria-label="Primary" data-site-nav>
+        <a href="{{BASE}}volumes/">Volumes</a>
+        <a href="{{BASE}}works/">Works</a>
+        <a href="{{BASE}}results/">Results</a>
+        <a href="{{BASE}}certification/">Certification</a>
+        <a href="{{BASE}}downloads/">Downloads</a>
+        <a href="{{BASE}}about/">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    {{CONTENT}}
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-grid">
+      <div>
+        <p class="footer-title">Biamonte Collected Works</p>
+        <p>A reader-facing scholarly collection organized by mathematical ideas, source fidelity and explicit evidence.</p>
+      </div>
+      <div>
+        <p class="footer-label">Public beta</p>
+        <p>{{WORK_COUNT}} works and {{RESULT_COUNT}} results published. The architecture is live; the corpus is intentionally unpopulated.</p>
+      </div>
+      <div>
+        <p class="footer-label">Build</p>
+        <p>Generated {{BUILD_DATE}}. No analytics, accounts or cookies.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

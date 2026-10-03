@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Please cite the relevant original papers. If referring to this collection as a whole, use this metadata."
+title: "Biamonte Collected Works"
+type: dataset
+authors:
+  - family-names: Biamonte
+    given-names: Jacob
+repository-code: "https://github.com/JacobBiamonte/Biamonte-Collected-Works-site"
+url: "https://jacobbiamonte.github.io/Biamonte-Collected-Works-site/"

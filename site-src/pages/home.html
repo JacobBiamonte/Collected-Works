@@ -1,0 +1,76 @@
+<section class="hero shell">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Public beta · architecture live</p>
+    <h1>One body of work.<br>Many mathematical languages.</h1>
+    <p class="lede">The Biamonte Collected Works brings together results across Boolean structure, tensor networks, Hamiltonian complexity, quantum dynamics, variational algorithms and statistical inference.</p>
+    <p class="hero-note">The public framework is working now. Papers and result-level certificates will appear only after their metadata and evidence have been reviewed.</p>
+    <div class="action-row">
+      <a class="button button-dark" href="{{BASE}}volumes/">Explore the volume map</a>
+      <a class="button" href="{{BASE}}certification/">How certification works</a>
+    </div>
+  </div>
+  <div class="hero-figure">
+    <svg viewBox="0 0 520 520" role="img" aria-labelledby="collection-map-title collection-map-desc">
+      <title id="collection-map-title">Three-volume collection map</title>
+      <desc id="collection-map-desc">Three overlapping circles represent structures, dynamics and inference.</desc>
+      <circle cx="260" cy="260" r="214" fill="none" stroke="currentColor" stroke-width="1"/>
+      <circle cx="210" cy="220" r="118" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="310" cy="220" r="118" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="260" cy="310" r="118" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M260 46v428M46 260h428" fill="none" stroke="currentColor" stroke-opacity=".18" stroke-width="1"/>
+      <circle cx="260" cy="248" r="7" fill="currentColor"/>
+      <text x="153" y="177">I</text>
+      <text x="352" y="177">II</text>
+      <text x="252" y="402">III</text>
+      <text class="figure-label" x="111" y="203">Structures</text>
+      <text class="figure-label" x="336" y="203">Dynamics</text>
+      <text class="figure-label" x="226" y="429">Inference</text>
+    </svg>
+  </div>
+</section>
+
+<section class="rule-section shell" aria-labelledby="status-heading">
+  <div class="section-heading">
+    <p class="eyebrow">Current public state</p>
+    <h2 id="status-heading">Built for growth, honest while empty.</h2>
+  </div>
+  <div class="metric-grid">
+    <div class="metric"><strong>{{WORK_COUNT}}</strong><span>Works published</span></div>
+    <div class="metric"><strong>{{RESULT_COUNT}}</strong><span>Results published</span></div>
+    <div class="metric"><strong>{{VOLUME_COUNT}}</strong><span>Volumes mapped</span></div>
+    <div class="metric"><strong>{{CHAPTER_COUNT}}</strong><span>Chapters mapped</span></div>
+  </div>
+</section>
+
+<section class="shell section-block" aria-labelledby="volumes-heading">
+  <div class="section-heading narrow-heading">
+    <p class="eyebrow">Reading architecture</p>
+    <h2 id="volumes-heading">Three movements through the research.</h2>
+    <p>The collection follows conceptual dependencies rather than publication chronology. Each result has one primary home, while cross-references preserve the larger network.</p>
+  </div>
+  <div class="volume-grid">
+    {{VOLUME_CARDS}}
+  </div>
+</section>
+
+<section class="contrast-section">
+  <div class="shell contrast-grid">
+    <div>
+      <p class="eyebrow light">Evidence before labels</p>
+      <h2>Certification is a ladder, not a badge.</h2>
+    </div>
+    <ol class="ladder-list">
+      <li><span>01</span><div><strong>Identify the source</strong><p>Bind a claim to its exact version, authors and locator.</p></div></li>
+      <li><span>02</span><div><strong>Check the mathematics</strong><p>Separate analytic proof, finite corroboration and unresolved dependencies.</p></div></li>
+      <li><span>03</span><div><strong>Reproduce what can be reproduced</strong><p>Preserve code, data assumptions and negative controls.</p></div></li>
+      <li><span>04</span><div><strong>Formalize exact statements</strong><p>Map results to Lean declarations and report build and axiom status precisely.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="shell section-block closing-block">
+  <p class="eyebrow">What comes next</p>
+  <h2>The routes are stable. Population can proceed record by record.</h2>
+  <p>Works, results, bibliography entries, volume PDFs and HTML chapters can be added without redesigning the site. Until then, every unpopulated area presents an intentional empty state rather than an implied claim of completion.</p>
+  <a class="text-link" href="{{BASE}}works/">Visit the works index <span aria-hidden="true">→</span></a>
+</section>

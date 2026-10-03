@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "volumes": [
+    {
+      "id": "I",
+      "slug": "boolean-and-tensor-structures",
+      "title": "Boolean and Tensor Structures",
+      "arc": "From finite functions and constraints to tensor representations and entanglement.",
+      "chapters": [
+        {
+          "id": "I.1",
+          "title": "Boolean functions, symmetry and penalties",
+          "summary": "Multilinear functions, Hamming-weight interpolation, kernels and Ising conventions."
+        },
+        {
+          "id": "I.2",
+          "title": "Ground-state logic and exact counting",
+          "summary": "NAND and XOR constructions, strict ground spaces, clause Hamiltonians, counting and simulation."
+        },
+        {
+          "id": "I.3",
+          "title": "Tensor calculus and contraction",
+          "summary": "Diagrammatic and categorical conventions, open-system representations, contraction and computational limits."
+        },
+        {
+          "id": "I.4",
+          "title": "Entanglement, bond dimension and parent states",
+          "summary": "Cut capacity, matrix-product states, exact versus border dimension and parent-state constructions."
+        }
+      ]
+    },
+    {
+      "id": "II",
+      "slug": "hamiltonians-symmetry-and-dynamics",
+      "title": "Hamiltonians, Symmetry and Dynamics",
+      "arc": "From encoded operators and spectral guarantees to symmetry, transport and networks.",
+      "chapters": [
+        {
+          "id": "II.1",
+          "title": "Hamiltonian encodings and simulation",
+          "summary": "Clocks, local constructions, gadgets, decompositions and simulation models."
+        },
+        {
+          "id": "II.2",
+          "title": "Spectral bounds, readout and certification",
+          "summary": "Ground-space overlap, eigenstate certificates, probe readout and its assumptions."
+        },
+        {
+          "id": "II.3",
+          "title": "Gauge symmetry, reciprocity and quantum walks",
+          "summary": "Cycle invariants, reciprocal dynamics, support restrictions, circuit and gauge applications."
+        },
+        {
+          "id": "II.4",
+          "title": "Graph operators and stochastic dynamics",
+          "summary": "Stochastic generators, network spectra, weighted aggregation and bounded applications."
+        }
+      ]
+    },
+    {
+      "id": "III",
+      "slug": "variational-algorithms-and-statistical-inference",
+      "title": "Variational Algorithms and Statistical Inference",
+      "arc": "From exact objectives to trainability, noise and statistical learning.",
+      "chapters": [
+        {
+          "id": "III.1",
+          "title": "Variational objectives and analytic optima",
+          "summary": "Exact QAOA objectives, recurrences, Grover transfer, parameter concentration and transport."
+        },
+        {
+          "id": "III.2",
+          "title": "Trainability and gradient structure",
+          "summary": "Causal cones, variance bounds, stationary points, saturation and optimization obstructions."
+        },
+        {
+          "id": "III.3",
+          "title": "Robustness and error mitigation",
+          "summary": "Stochastic parameter perturbations, exact averaging, stability and zero-noise extrapolation."
+        },
+        {
+          "id": "III.4",
+          "title": "Entropy, learning and inference",
+          "summary": "Gibbs objectives, support and normalization, entropy loss, channel discrimination and control."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+<section class="page-intro shell">
+  <p class="eyebrow">Claims and constructions</p>
+  <h1>Results</h1>
+  <p class="lede">The collection’s unit of certification is an exact result, not a whole paper. Each entry will bind a statement to its source, evidence and formalization status.</p>
+</section>
+<section class="shell index-section" data-filter-root>
+  <div class="filter-bar two-up">
+    <label class="search-field">
+      <span>Search results</span>
+      <input type="search" placeholder="Statement, identifier, work or chapter" data-search-input>
+    </label>
+    <label>
+      <span>Volume</span>
+      <select data-volume-filter>
+        <option value="">All volumes</option>
+        <option value="I">Volume I</option>
+        <option value="II">Volume II</option>
+        <option value="III">Volume III</option>
+      </select>
+    </label>
+  </div>
+  <div class="index-summary" aria-live="polite"><span data-visible-count>{{RESULT_COUNT}}</span> public results</div>
+  <div class="card-list" data-filter-list>
+    {{RESULT_CARDS}}
+  </div>
+  {{RESULT_EMPTY_STATE}}
+</section>
