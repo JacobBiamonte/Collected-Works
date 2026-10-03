@@ -63,6 +63,7 @@ for (const volume of data.volumes.volumes) {
 }
 if (!homepage.includes('topic-tag')) errors.push('Homepage topic tags are missing.');
 if (homepage.includes('wordmark-mark')) errors.push('Removed wordmark logo is still present.');
+if (homepage.includes('hero-figure') || homepage.includes('collection-map-title')) errors.push('Removed hero figure is still present.');
 if (!homepage.includes('editorial reading map; certification records remain separate')) errors.push('Homepage editorial/certification distinction is missing.');
 
 const siteScript = fs.existsSync(path.join(DIST, 'assets/site.js')) ? fs.readFileSync(path.join(DIST, 'assets/site.js'), 'utf8') : '';
