@@ -138,7 +138,7 @@ function emptyState(kind, hidden = false) {
   return `<div class="empty-state" data-empty-state${hidden ? ' hidden' : ''}>
     <div class="empty-state-inner">
       <span class="empty-state-index">0</span>
-      <h2>The first ${kind} are being prepared for inclusion.</h2>
+      <h2>The first ${kind === 'works' ? 'bibliography entries' : kind} are being prepared for inclusion.</h2>
       <p>This index will grow as entries are added to the collection.</p>
     </div>
   </div>`;
@@ -230,8 +230,8 @@ renderStaticPage('home', {
 renderStaticPage('works', {
   output: 'works/index.html',
   route: 'works/',
-  title: 'Works — Biamonte Collected Works',
-  description: 'Version-aware index of the works included in the Biamonte Collected Works.',
+  title: 'Bibliography — Biamonte Collected Works',
+  description: 'Papers, preprints, books and chapters in the Biamonte Collected Works, with publication details, original source links and a BibTeX download.',
   pageId: 'works'
 });
 
