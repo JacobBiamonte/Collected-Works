@@ -1,17 +1,15 @@
 <section class="page-intro shell">
   <p class="eyebrow">Method</p>
-  <h1>Certification</h1>
-  <p class="lede">Lean certification is a central objective: the collection aims to produce a formally checked counterpart for every formalizable mathematical result. Source alignment, analytic review, reproduction and formal verification remain separately reported so the public record says exactly what has been established.</p>
+  <h1>Lean certification</h1>
+  <p class="lede">The aim is to formalize the collection’s mathematical results in Lean, a proof assistant for computer-checked mathematics. Each completed formalization will be linked to its original result and a reproducible build.</p>
 </section>
 <section class="shell section-block certification-grid">
-  <article><span class="step-number">01</span><h2>Source identity</h2><p>The exact version, byline, DOI or repository identifier, and source locator are established. Publisher and preprint parity remain separate when they have not been compared.</p></article>
-  <article><span class="step-number">02</span><h2>Analytic review</h2><p>The statement and argument are checked under explicit hypotheses. A bounded local result never silently becomes whole-paper certification.</p></article>
-  <article><span class="step-number">03</span><h2>Computational reproduction</h2><p>Finite checks, code, data or figures are reproduced with preserved inputs and negative controls. Numerical agreement is not promoted to proof.</p></article>
-  <article><span class="step-number">04</span><h2>Lean certification</h2><p>An exact paper-to-theorem map identifies the encoded statement. A reproducible build and axiom audit must show no <code>sorry</code> or unproved new axioms.</p></article>
-  <article><span class="step-number">05</span><h2>Editorial integration</h2><p>The result is explained coherently, with its assumptions and limitations beside it, and with the original authors and any adopted correction properly attributed.</p></article>
-  <article><span class="step-number">06</span><h2>External status</h2><p>Coauthor review, journal action and public correction status are reported independently. An internal finding is never described as an accepted external correction.</p></article>
+  <article><span class="step-number">01</span><h2>The original result</h2><p>Identify the paper, its authors and the exact statement being formalized. Record the assumptions and the earlier results on which its proof depends.</p></article>
+  <article><span class="step-number">02</span><h2>The Lean statement</h2><p>Express the definitions, assumptions and conclusion in Lean. Review the formal statement alongside the original mathematics to check that they agree.</p></article>
+  <article><span class="step-number">03</span><h2>The formal proof</h2><p>Write a proof that Lean checks. A reproducible build and axiom audit must show no <code>sorry</code> or unproved new axioms.</p></article>
+  <article><span class="step-number">04</span><h2>The published formalization</h2><p>Link the proof code, Lean version, dependencies and build instructions to the result in the collection, so others can inspect and check it.</p></article>
 </section>
 <section class="shell note-panel">
-  <h2>The Lean objective</h2>
-  <p>For each formalizable result, the target is a source-mapped Lean declaration, a reproducible build and an axiom audit. Lean proves the encoded theorem; source-fidelity review establishes that the encoding matches the intended paper statement.</p>
+  <h2>Tracking progress result by result</h2>
+  <p>The goal is to formalize every mathematical result that can be expressed in Lean. The result index will distinguish work in preparation from completed, checked proofs. Computational and experimental findings will have their own reproduction records.</p>
 </section>

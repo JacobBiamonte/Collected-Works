@@ -110,9 +110,9 @@ function volumeCards(headingLevel = 3) {
       <h${headingLevel}>${escapeHtml(volume.title)}</h${headingLevel}>
       ${topicTags(volume)}
       <p>${escapeHtml(volume.arc)}</p>
-      <p class="result-map-label">Selected result lines</p>
+      <p class="result-map-label">Selected results</p>
       ${featuredResultNames(volume)}
-      <a class="text-link" href="${BASE}volumes/${escapeHtml(volume.slug)}/" aria-label="Read the map for ${escapeHtml(volume.title)}">Read the map <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="${BASE}volumes/${escapeHtml(volume.slug)}/" aria-label="Explore ${escapeHtml(volume.title)}">Explore this volume <span aria-hidden="true">→</span></a>
     </article>`).join('');
 }
 
@@ -138,8 +138,8 @@ function emptyState(kind, hidden = false) {
   return `<div class="empty-state" data-empty-state${hidden ? ' hidden' : ''}>
     <div class="empty-state-inner">
       <span class="empty-state-index">0</span>
-      <h2>The first reviewed ${kind} are in preparation.</h2>
-      <p>The database and filters are ready. Public records will appear after source alignment and review.</p>
+      <h2>The first ${kind} are being prepared for inclusion.</h2>
+      <p>This index will grow as entries are added to the collection.</p>
     </div>
   </div>`;
 }
@@ -222,8 +222,8 @@ for (const file of ['volumes.json', 'works.json', 'results.json', 'releases.json
 renderStaticPage('home', {
   output: 'index.html',
   route: '',
-  title: 'Biamonte Collected Works — Lean Certification and Discovery',
-  description: "Jacob Biamonte's collected research in quantum computing, tensor networks and inference: a program for Lean certification and AI-assisted discovery.",
+  title: 'Biamonte Collected Works — Research and Lean Formalization',
+  description: "A coherent edition of Jacob Biamonte's research in quantum computing, tensor networks, dynamics and inference, with the goal of formalizing its results in Lean.",
   pageId: 'home'
 });
 
@@ -239,7 +239,7 @@ renderStaticPage('results', {
   output: 'results/index.html',
   route: 'results/',
   title: 'Results — Biamonte Collected Works',
-  description: 'A structured database of source-mapped results, Lean status, dependencies, connections and research extensions.',
+  description: 'Mathematical results in the Biamonte Collected Works, with original sources, assumptions and progress toward formalization in Lean.',
   pageId: 'results'
 });
 
@@ -247,7 +247,7 @@ renderStaticPage('certification', {
   output: 'certification/index.html',
   route: 'certification/',
   title: 'Certification — Biamonte Collected Works',
-  description: 'How the Biamonte Collected Works certifies formalizable mathematical results in Lean.',
+  description: 'The plan to formalize the mathematical results of the Biamonte Collected Works in Lean, with source-linked proofs and reproducible builds.',
   pageId: 'certification'
 });
 
@@ -263,13 +263,13 @@ renderStaticPage('about', {
   output: 'about/index.html',
   route: 'about/',
   title: 'About — Biamonte Collected Works',
-  description: 'The proof-and-discovery mission of the Biamonte Collected Works.',
+  description: 'Bringing Jacob Biamonte’s research program into a coherent collected edition and formalizing its mathematical results in Lean.',
   pageId: 'about'
 });
 
 const volumeIndex = `
   <section class="page-intro shell">
-    <p class="eyebrow">Reading map</p>
+    <p class="eyebrow">The collected edition</p>
     <h1>Volumes</h1>
     <p class="lede">Three linked volumes move from Hamiltonian logic and tensor structure, through quantum and stochastic dynamics, to algorithms and inference.</p>
   </section>
@@ -278,7 +278,7 @@ const volumeIndex = `
 write('volumes/index.html', renderPage({
   route: 'volumes/',
   title: 'Volumes — Biamonte Collected Works',
-  description: 'The three-volume reading architecture of the Biamonte Collected Works.',
+  description: 'The three planned volumes of the Biamonte Collected Works, organized by mathematical theme.',
   pageId: 'volumes',
   content: volumeIndex
 }));
@@ -291,7 +291,7 @@ for (const volume of data.volumes.volumes) {
       <div>
         <h2>${escapeHtml(chapter.title)}</h2>
         <p>${escapeHtml(chapter.summary)}</p>
-        <span class="chapter-state">Mapped · exposition in preparation</span><br>
+        <span class="chapter-state">Chapter in preparation</span><br>
         <a class="text-link" href="${BASE}volumes/${volume.slug}/${chapterSlug}/" aria-label="Open chapter ${escapeHtml(chapter.id)}: ${escapeHtml(chapter.title)}">Open chapter page <span aria-hidden="true">→</span></a>
       </div>
     </article>`;
@@ -305,16 +305,16 @@ for (const volume of data.volumes.volumes) {
     </section>
     <section class="shell result-map-section" id="selected-results">
       <div class="section-heading narrow-heading">
-        <p class="eyebrow">Selected result lines</p>
-        <h2>What defines this volume.</h2>
-        <p>These names form the editorial reading map. Formal public evidence records will appear separately after review.</p>
+        <p class="eyebrow">Selected results</p>
+        <h2>Results planned for this volume.</h2>
+        <p>Each result will link to its original source, an explanation in the collection and its progress toward Lean formalization.</p>
       </div>
       <div class="featured-result-grid">${featuredResultCards(volume)}</div>
     </section>
     <section class="shell volume-page-grid">
       <aside class="volume-aside">
         <p class="eyebrow">Edition status</p>
-        <p>This volume's ${volume.chapters.length} chapters and selected result map are public. Source-linked result records and reader text are in preparation.</p>
+        <p>This volume has ${volume.chapters.length} planned chapters. The exposition and source-linked results are in preparation.</p>
         <a class="text-link" href="${BASE}downloads/">Edition downloads <span aria-hidden="true">→</span></a>
       </aside>
       <div class="chapter-list">${chapterRows}</div>
@@ -343,15 +343,15 @@ for (const volume of data.volumes.volumes) {
       </section>
       <section class="shell section-block">
         <div class="metric-grid">
-          <div class="metric"><strong>${chapterWorks.length}</strong><span>Public works</span></div>
-          <div class="metric"><strong>${chapterResults.length}</strong><span>Public results</span></div>
+          <div class="metric"><strong>${chapterWorks.length}</strong><span>Works included</span></div>
+          <div class="metric"><strong>${chapterResults.length}</strong><span>Results indexed</span></div>
           <div class="metric"><strong>${chapterResults.filter((result) => result.evidence_status === 'formally-verified').length}</strong><span>Lean certificates</span></div>
-          <div class="metric"><strong>Mapped</strong><span>Chapter state</span></div>
+          <div class="metric"><strong>Planned</strong><span>Chapter status</span></div>
         </div>
       </section>
       <section class="shell note-panel">
-        <h2>Chapter record in preparation</h2>
-        <p>This page will connect reviewed exposition, source works, exact result statements, dependencies, Lean certificates and related research questions.</p>
+        <h2>Chapter in preparation</h2>
+        <p>This chapter will present the mathematics with links to the original papers, related results and formal proofs in Lean.</p>
       </section>`;
     write(`volumes/${volume.slug}/${chapterSlug}/index.html`, renderPage({
       route: `volumes/${volume.slug}/${chapterSlug}/`,

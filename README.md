@@ -2,8 +2,10 @@
 
 This repository is the public, reader-facing home of the Biamonte Collected Works. The project has two connected aims:
 
-- produce a source-mapped Lean-certified counterpart for every formalizable mathematical result in the corpus;
-- build a structured result database that supports human and frontier-model-assisted exploration of connections, conjectures and extensions.
+- bring Jacob Biamonte’s research program together in a coherent collected edition;
+- formalize its mathematical results in Lean, with links to the original statements and reproducible proof builds.
+
+The result index supports the exposition and tracks formalization progress. It will also provide a basis for exploring new connections and extensions, including research assisted by frontier models.
 
 The public repository is intentionally separate from the private validation record. The site is functional before the corpus is populated: it provides the three-volume reading map, stable result and source routes, certification definitions, machine-readable data, bibliography download, search and filter controls, and a GitHub Pages deployment pipeline.
 
