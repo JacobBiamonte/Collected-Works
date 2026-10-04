@@ -246,7 +246,7 @@ renderStaticPage('results', {
 renderStaticPage('certification', {
   output: 'certification/index.html',
   route: 'certification/',
-  title: 'Certification — Biamonte Collected Works',
+  title: 'Lean Certification — Biamonte Collected Works',
   description: 'The plan to formalize the mathematical results of the Biamonte Collected Works in Lean, with source-linked proofs and reproducible builds.',
   pageId: 'certification'
 });
